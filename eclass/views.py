@@ -41,7 +41,7 @@ def logout(request):
 
 
 
-@login_required
+@login_required(login_url="/login")
 def index(request):
 	user = request.user
 	if user.is_authenticated:
@@ -53,7 +53,7 @@ def index(request):
 		return redirect('/login')
 
 # Student dashboard
-@login_required
+@login_required(login_url="/login")
 def student_home(request):
 	user = request.user
 	if not user.is_superuser:
@@ -87,7 +87,7 @@ def student_home(request):
 
 
 # All course for a student
-@login_required
+@login_required(login_url="/login")
 def student_courses(request):
 	user = request.user
 	if not user.is_superuser:
@@ -103,7 +103,7 @@ def student_courses(request):
 
 
 # Topics for a student
-@login_required
+@login_required(login_url="/login")
 def student_course(request, course_id):
 	user = request.user
 	if not user.is_superuser:
@@ -130,7 +130,7 @@ def student_course(request, course_id):
 
 
 #Viewing notes in a chapter
-@login_required
+@login_required(login_url="/login")
 def student_chapter(request, chapter_id):
 	user = request.user
 	if not user.is_superuser:
@@ -162,7 +162,7 @@ def student_chapter(request, chapter_id):
 
 
 # All assignments for student
-@login_required
+@login_required(login_url="/login")
 def student_assignments(request):
 	user = request.user
 	if not user.is_superuser:
@@ -204,7 +204,7 @@ def student_assignments(request):
 
 
 # Taking an assignment
-@login_required
+@login_required(login_url="/login")
 def student_assignment(request, assignment_id):
 	user = request.user
 	if not user.is_superuser:
@@ -230,7 +230,7 @@ def student_assignment(request, assignment_id):
 
 
 # Marking an assignment
-@login_required
+@login_required(login_url="/login")
 def mark_assignment(request, assignment_id):
 	user = request.user
 	if not user.is_superuser:
@@ -291,7 +291,7 @@ def mark_assignment(request, assignment_id):
 
 
 # Admin Views
-@login_required
+@login_required(login_url="/login")
 def admin_home(request):
 	user = request.user
 	if user.is_superuser:
@@ -302,7 +302,7 @@ def admin_home(request):
 
 
 # All classes
-@login_required
+@login_required(login_url="/login")
 def admin_classes(request):
 	user = request.user
 	if user.is_superuser:
@@ -314,7 +314,7 @@ def admin_classes(request):
 
 
 # Adding a class
-@login_required
+@login_required(login_url="/login")
 def admin_add_class(request):
 	user = request.user
 	if user.is_superuser:
@@ -331,7 +331,7 @@ def admin_add_class(request):
 		return redirect('/error')
 
 
-@login_required
+@login_required(login_url="/login")
 def admin_class(request, class_id):
 	user = request.user
 	if user.is_superuser:
@@ -343,7 +343,7 @@ def admin_class(request, class_id):
 	else:
 		return redirect('/error')
 
-@login_required
+@login_required(login_url="/login")
 def admin_student(request, st_id):
 	user = request.user
 	if user.is_superuser:
@@ -381,7 +381,7 @@ def admin_student(request, st_id):
 
 
 # All assingments
-@login_required
+@login_required(login_url="/login")
 def admin_assignments(request):
 	user = request.user
 	if user.is_superuser:
@@ -395,7 +395,7 @@ def admin_assignments(request):
 
 
 #Assignment
-@login_required
+@login_required(login_url="/login")
 def admin_assignment(request, assignment_id):
 	user = request.user
 	if user.is_superuser:
@@ -414,7 +414,7 @@ def admin_assignment(request, assignment_id):
 
 
 # Adding assignment
-@login_required
+@login_required(login_url="/login")
 def admin_add_assign(request):
 	user = request.user
 	if user.is_superuser:
@@ -431,7 +431,7 @@ def admin_add_assign(request):
 
 
 #Adding a question
-@login_required
+@login_required(login_url="/login")
 def admin_add_question(request, assignment_id):
 	user = request.user
 	if user.is_superuser:
@@ -474,7 +474,7 @@ def admin_add_question(request, assignment_id):
 
 
 #All course
-@login_required
+@login_required(login_url="/login")
 def admin_courses(request):
 	user = request.user
 	if user.is_superuser:
@@ -486,7 +486,7 @@ def admin_courses(request):
 		return redirect('/error')
 
 #Topics for a course
-@login_required
+@login_required(login_url="/login")
 def admin_topics(request, course_id):
 	user = request.user
 	if user.is_superuser:
@@ -526,7 +526,7 @@ def admin_add_topic(request, course_id):
 
 
 #All chapters for a topic
-@login_required
+@login_required(login_url="/login")
 def admin_chapters(request, topic_id):
 	user = request.user
 	if user.is_superuser:
@@ -542,7 +542,7 @@ def admin_chapters(request, topic_id):
 
 
 #Notes for a chapter
-@login_required
+@login_required(login_url="/login")
 def admin_chapter(request, chapter_id):
 	user = request.user
 	if user.is_superuser:
@@ -557,7 +557,7 @@ def admin_chapter(request, chapter_id):
 
 
 #Adding a chapter
-@login_required
+@login_required(login_url="/login")
 def admin_add_chapter(request, topic_id):
 	user = request.user
 	if user.is_superuser:
@@ -580,7 +580,7 @@ def admin_add_chapter(request, topic_id):
 
 
 #Adding Notes
-@login_required
+@login_required(login_url="/login")
 def admin_add_note(request, chapter_id):
 	user = request.user
 	if user.is_superuser:
@@ -619,7 +619,7 @@ def admin_add_note(request, chapter_id):
 
 
 # Applying course to class
-@login_required
+@login_required(login_url="/login")
 def admin_apply_course(request):
 	user = request.user
 	if user.is_superuser:
@@ -658,7 +658,7 @@ def admin_apply_course(request):
 		return redirect('/error')
 
 # Applying assignment to class
-@login_required
+@login_required(login_url="/login")
 def admin_apply_assignment(request):
 	user = request.user
 	if user.is_superuser:
@@ -702,7 +702,7 @@ def admin_apply_assignment(request):
 
 
 #Adding a course
-@login_required
+@login_required(login_url="/login")
 def admin_add_course(request):
 	user = request.user
 	if user.is_superuser:
@@ -719,7 +719,7 @@ def admin_add_course(request):
 
 
 # Inviting a student to a class
-@login_required
+@login_required(login_url="/login")
 def admin_invite_student(request, class_id):
 	user = request.user
 	if user.is_superuser:
@@ -773,7 +773,7 @@ def admin_invite_student(request, class_id):
 
 
 # If the student is already added
-@login_required
+@login_required(login_url="/login")
 def admin_already_added(request):
 	user = request.user
 	if user.is_superuser:
@@ -785,7 +785,7 @@ def admin_already_added(request):
 
 
 # If the student is already added
-@login_required
+@login_required(login_url="/login")
 def admin_already_invited(request):
 	user = request.user
 	if user.is_superuser:
