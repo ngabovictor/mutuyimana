@@ -167,24 +167,28 @@ def student_assignments(request):
 	user = request.user
 	if not user.is_superuser:
 		st = student.objects.get(username=request.user)
-		asss = assignment.objects.filter(status="Active")
-		ass_count = assignment.objects.filter(status="Active").count()
+		assk = assignment_for.objects.filter(eclass=st.eclass)
+		asss = []
+		for ask in assk:
+			asss.append(ask.assignment)
+
+		ass_count = assignment_for.objects.filter(eclass=st.eclass).count()
 		comps = Completed_assignment.objects.filter(student=student.objects.get(username=request.user))
 		not_completed = []
 		i=1
 
 		
-		# while i <= ass_count:
-		# 	for ass in asss:
-		# 		for comp in comps:
-		# 			if ass == comp.assignment:
-		# 				break
-		# 			else:
-		# 				if ass not in not_completed:
-		# 					not_completed.append(ass)
-		# 				# elif ass in not_completed:
-		# 				# 	not_completed.remove(ass)
-		# 	i+=1
+		while i <= ass_count:
+			for ass in asss:
+				for comp in comps:
+					if ass == comp.assignment:
+						break
+					else:
+						if ass not in not_completed:
+							not_completed.append(ass)
+						elif ass in not_completed:
+							not_completed.remove(ass)
+			i+=1
 		for ass in asss:
 			not_completed.append(ass)
 
@@ -347,7 +351,7 @@ def admin_class(request, class_id):
 def admin_student(request, st_id):
 	user = request.user
 	if user.is_superuser:
-		instance = get_object_or_404(User, id=st_id)
+		instance = get_object_or_404(student, id=st_id)
 		cu = current.objects.get(student=student.objects.get(pk=st_id))
 		cuTopic = cu.topic
 		cuChap = cu.chapter
@@ -727,9 +731,10 @@ def admin_invite_student(request, class_id):
 			first_name = request.POST['fname']
 			last_name = request.POST['lname']
 			id_number = request.POST['id']
-			email = request.POST['email']
+			eMail = request.POST['email']
 			crs = course_for.objects.filter(eclass=eclass.objects.get(pk=class_id))
 			crscount = course_for.objects.filter(eclass=eclass.objects.get(pk=class_id)).count()
+			kalase = eclass.objects.get(pk=class_id)
 
 			if crscount == 0:
 				return render(request, 'no-content-for-class.html')
@@ -762,12 +767,15 @@ def admin_invite_student(request, class_id):
 
 						if id_number in all_id:
 							return redirect('/t/already-added')
-						else:
-							invited.objects.create(
-								email=email,
-								id_number=id_number,
-								eclass=eclass.objects.get(id=class_id))
-							return redirect('/t/class='+ str(class_id))
+
+		message_to_send = "Hello" + " " + str(first_name) + "," + "\n\nPlease confirm your membership to " + str(kalase.name) + " by going through the signup process to this link: nvic.pythonanywhere.com/confirm=" + str(id_number) + "." + "\n\nIf you think this is not you, just ignore the email. \n\nThank you."
+		email = EmailMessage('Confirm eClass membership', message_to_send, to=[eMail])
+		email.send()
+		invited.objects.create(
+			email=eMail,
+			id_number=id_number,
+			eclass=eclass.objects.get(id=class_id))
+		return redirect('/t/class='+ str(class_id))
 	else:
 		return redirect('/error')
 
@@ -826,22 +834,33 @@ def signup(request, st_id):
 		last_name = request.POST['lname']
 		password = request.POST['password']
 
-		User.objects.create_user(
-			username=username,
-			password=password,
-			first_name=first_name,
-			last_name=last_name,
-			email=email,)
-		student.objects.create(
-			first_name=first_name,
-			last_name=last_name,
-			eclass=inv.eclass,
-			username=User.objects.get(username=username),
-			email=inv.email,
-			id_number=inv.id_number)
-		current.objects.create(
-			student=student.objects.get(username=User.objects.get(username=username)),
-			topic=top,
-			chapter=chapter.objects.filter(topic=top).last(),)
-		invited.objects.get(id_number=st_id).delete()
-		return redirect('/login')
+		users = User.objects.all()
+		usernames = []
+		for usr in users:
+			usernames.append(usr.username)
+		if username in usernames:
+			data = {}
+			data['class'] = inv.eclass
+			data['student'] = inv.id_number
+			return render(request, 'username-issue.html', data)
+		else:
+
+			User.objects.create_user(
+				username=username,
+				password=password,
+				first_name=first_name,
+				last_name=last_name,
+				email=email,)
+			student.objects.create(
+				first_name=first_name,
+				last_name=last_name,
+				eclass=inv.eclass,
+				username=User.objects.get(username=username),
+				email=inv.email,
+				id_number=inv.id_number)
+			current.objects.create(
+				student=student.objects.get(username=User.objects.get(username=username)),
+				topic=top,
+				chapter=chapter.objects.filter(topic=top).last(),)
+			invited.objects.get(id_number=st_id).delete()
+			return redirect('/login')
