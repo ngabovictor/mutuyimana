@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+
+{% load staticfiles %}
+
+{% block sidebar %}
+
+	<div class="side-bar">
+			<div class="side-bar-content">
+				<div class="side-bar-header">
+					<div class="header-items">
+						<h6>
+							{% block user %}{% endblock %} 
+							<span class="close">x</span>
+						</h6>
+					</div>
+				</div>
+
+				<div class="side-bar-data">
+					<ul class="side-bar-links">
+						<li class="side-bar-link-container">
+							<a class="side-bar-link" href="/s/dashboard">
+								<span class="pull-left">
+									<i class="side-bar-icon material-icons">dashboard</i>
+								</span>
+								<span>Dashboard</span>
+							</a>
+						</li>
+
+						<li class="side-bar-link-container">
+							<a class="side-bar-link" href="/s/courses">
+								<span class="pull-left">
+									<i class="side-bar-icon material-icons">library_books</i>
+								</span class="pull-left">
+								<span>Course Library</span>
+							</a>
+						</li>
+
+						<li class="side-bar-link-container">
+							<a class="side-bar-link" href="/s/assignments">
+								<span class="pull-left">
+									<i class="side-bar-icon material-icons">group_work</i>
+								</span>
+								<span>Assignments</span>
+							</a>
+						</li>
+
+						<li class="side-bar-link-container">
+							<a class="side-bar-link" href="/logout">
+								<span>
+									<i class="side-bar-icon material-icons">exit_to_app</i>
+								</span>
+								<span>Logout</span>
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			
+		</div>
+
+		<!-- BACKGROUNDER -->
+
+	<div class="body">
+	</div>
+
+{% endblock %}

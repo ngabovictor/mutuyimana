@@ -1,0 +1,72 @@
+{% extends 'admin-sidebar.html' %}
+
+
+{% load staticfiles %}
+
+{% block title %} Student {% endblock %}
+
+{% block content %}
+
+<!-- CONTENT -->
+	<div class="container under-navbar">
+		<div class="row">
+			<div class="col-md-12 class-holder ">
+				<div class="col-content with-box-shadow class">
+					<h6><span class="color-pink">ID Number:</span> {{student.id_number}}</h6>
+					<br>
+					<hr>
+
+					<h6><span class="color-pink">Name:</span> {{student.first_name}} {{student.last_name}}</h6>
+					<br>
+					<hr>
+
+					<h6><span class="color-pink">Class:</span> {{student.eclass}}</h6>
+					<br>
+					<hr>
+
+					<h6><span class="color-pink">Current course:</span> {{current_course}}</h6>
+					<br>
+					<hr>
+
+					<h6><span class="color-pink">Current topic:</span> {{curent_topic.title}}</h6>
+					<br>
+					<hr>
+
+					<h6><span class="color-pink">Current chapter:</span> {{current_chapter}}</h6>
+					<br>
+					<hr>
+
+					<h6><span class="color-pink">Assignments</span></h6>
+					<ul>
+						{% for done in dones %}
+							{% for assignment in assignments %}
+								{% if assignment == done.assignment %}
+									<li>{{assignment.title}}: {{done.score}}%, done on {{done.time}}</li>
+								{% endif %}
+							{% endfor %}
+						{% empty %}
+							<h4>No completed assignments</h4>
+						{% endfor %}
+					</ul>
+					<br>
+					<hr>
+
+					<!-- <form action="">
+						<div class="form-group">
+							<label for="message">Send Message to Victor Ngaboyamahoro</label>
+							<br>
+							<textarea name="message" id="message" class="form-control col-md-5 col-sm-5 col-xs-12"></textarea>
+						</div>
+
+						<div class="form-group">
+							<input class="btn green-bcg white" type="submit" value="Send">
+						</div>
+					</form> -->
+				</div>
+				<br>
+			</div>
+		</div>
+	</div>
+
+
+{% endblock%}

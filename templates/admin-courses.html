@@ -1,0 +1,149 @@
+{% extends 'admin-sidebar.html' %}
+
+
+{% load staticfiles %}
+
+{% block title %} Courses {% endblock %}
+
+{% block content %}
+
+
+
+<!-- CONTENT -->
+	<div class="container under-navbar">
+		<h3 align="center" class="color-pink">Course Library</h3>
+		<br>
+		<div class="row">
+
+		{% for course in courses %}
+
+			<div class="col-md-4 class-holder">
+				<div class="col-content with-box-shadow class">
+					<img src="{{course.picture.url}}" alt="course-thumbnail" class="img-fluid">
+					<h4 align="center"><a href="/t/topics={{course.id}}" class="color-pink">{{course.title}}</a></h4>
+					<br>
+					<p>{{course.description}}</p>
+					<br>
+				</div>
+			</div>
+
+		{% endfor %}
+			
+			<div class="col-md-4 class-holder">
+				<div class="col-content with-box-shadow class">
+					<center><button class="btn btn-default color-pink transparent-btn" data-toggle="modal" data-target="#link">Link course to class</button></center>
+				</div>
+			</div>
+
+			<div class="col-md-4 class-holder">
+				<div class="col-content with-box-shadow class">
+					<center><button class="btn btn-default color-pink transparent-btn" data-toggle="modal" data-target="#myModal"><h1>+</h1></button></center>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+	<!--Linking courses and classes modal -->
+
+		<div class="modal fade" id="link" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header pink-bcg">
+		        <h5 class="modal-title white" id="exampleModalLabel">Link course to class</h5>
+		        <button type="button" class="close white modal-close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+
+		        
+		        <form class="modal-forms" action="/t/apply-course-to-class" role="form" method="POST">{% csrf_token%}
+					<div class="form-group">
+						<label for="course">Course Title</label>
+
+						<select type="text" class="form-control form-control-sm" id="course" name="course" aria-describedby="emailHelp" placeholder="Enter course title" required>
+							{% for course in courses %}
+								<option value="{{course.id}}">{{course.title}}</option>
+							{% endfor %}
+						</select>
+					</div>
+
+					<div class="form-group">
+						<label for="eclass">Class</label>
+
+						<select type="text" class="form-control form-control-sm" id="eclass" name="eclass" aria-describedby="emailHelp" placeholder="Enter course title" required>
+							{% for eclass in eclasses %}
+								<option value="{{eclass.id}}">{{eclass.name}}</option>
+							{% endfor %}
+						</select>
+					</div>
+
+					<div class="form-group">
+						<div class="modal-footer">
+					        <button type="submit" class="btn btn-primary modal-btn-submit">Link</button>
+					    </div>
+					</div>
+
+
+				</form>
+		      </div>
+
+		      
+		    </div>
+		  </div>
+		</div>
+
+		<!-- END OF ORDER MODAL -->
+
+		<!-- Adding a Class Modal -->
+
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header pink-bcg">
+		        <h5 class="modal-title white" id="exampleModalLabel">Add course</h5>
+		        <button type="button" class="close white modal-close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+
+		        <!-- ORDER DETAILS -->
+		        <form class="modal-forms" method="POST" action="/t/add-course" enctype="multipart/form-data">{% csrf_token %}
+					<div class="form-group">
+						<label for="title">Course Title</label>
+
+						<input type="text" class="form-control form-control-sm" id="title" name="title" aria-describedby="emailHelp" placeholder="Enter course title" required>
+					</div>
+
+					<div class="form-group">
+						<label for="thumbnail">Course Thumbnail</label>
+
+						<input type="file" accept=".jpg, .jpeg, .png, .bmp" class="form-control form-control-sm" id="thumbnail" name="thumbnail" aria-describedby="emailHelp" placeholder="Add course thumbnail photo" required>
+					</div>
+
+					<div class="form-group">
+						<label for="description">Course description</label>
+						<textarea type="text" class="form-control form-control-sm" id="description" name="description" placeholder="Add course description" rows="5" required></textarea>
+					</div>
+
+					<div class="form-group">
+						<div class="modal-footer">
+					        <button type="submit" class="btn btn-primary modal-btn-submit">Add</button>
+					    </div>
+					</div>
+
+
+				</form>
+		      </div>
+
+		      
+		    </div>
+		  </div>
+		</div>
+
+		<!-- END OF ORDER MODAL -->
+
+{% endblock%}

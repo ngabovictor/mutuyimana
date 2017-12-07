@@ -1,0 +1,42 @@
+{% extends 'student-sidebar.html' %}
+
+
+{% load staticfiles %}
+
+{% block title %} My Courses {% endblock %}
+
+{% block content %}
+
+{% block user %}
+
+{{student.first_name}}
+
+{% endblock %} 
+
+<div class="container under-navbar">
+		<!-- <h3 align="center" class="color-pink">Course Library</h3> -->
+		<br>
+		<div class="row">
+
+		{% for course in courses %}
+			{% for cfor in course_for %}
+				{% if course == cfor.course %}
+					<div class="col-md-4 class-holder">
+						<div class="col-content with-box-shadow class">
+							<img src="{{course.picture.url}}" alt="course-thumbnail" class="img-fluid">
+							<h4 align="center"><a href="/s/course={{course.id}}" class="color-pink">{{course.title}}</a></h4>
+							<br>
+							<p>{{course.description}}</p>
+						</div>
+					</div>
+				{% endif %}
+			{% endfor %}
+
+		{% endfor %}
+		</div>
+	</div>
+	
+
+
+
+{% endblock %}

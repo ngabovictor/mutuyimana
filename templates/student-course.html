@@ -1,0 +1,114 @@
+{% extends 'student-sidebar.html' %}
+
+
+{% load staticfiles %}
+
+{% block title %} {{course.title}} {% endblock %}
+
+{% block content %}
+
+{% block user %}
+
+{{student.first_name}}
+
+{% endblock %} 
+
+
+<!-- SUBNAVBAR -->
+
+	<div class="lesson-title">
+		<div class="title-contents">
+			<h5>{{course.title}}</h5>
+			<h6><span class="topic">Topic: </span>{{current.topic}}</h6>
+
+					<h6><span class="topic">Chapter: </span>{{current.chapter}}</h6>
+		</div>
+	</div>
+
+
+<!-- CONTENT -->
+
+
+	<!-- TOPIC OVERVIEW -->
+
+	<div class="content-overview">
+		<div class="overview-content">
+			<ul class="topic-list">
+
+			{% for topic in topics %}
+				<li>
+					<h6 class="course-topic">{{topic.title}}</h6>
+					<ul class="chapters">
+						{% for chapter in chapters %}
+							{% if topic == chapter.topic %}
+							<li class="chapter"><a href="/s/chapter={{chapter.id}}">{{chapter.title}}</a></li>
+							{% endif %}
+						{% endfor %}
+					</ul>
+				</li>
+			{% endfor %}
+			</ul>
+		</div>
+	</div>
+
+
+	<!-- LEARN -->
+
+	<div class="learn-container">
+		<div class="learn-content">
+			<img class="img-fluid" src="{{course.picture.url}}" alt="course-thoumbnail">
+			<div class="course">
+				<div class="course-heading">
+					<span class="pull-left"><h5 class="view-note show">View Notes</h5></span>
+					<!-- <span class="pull-right"><button class="btn btn-primary check-knowledge">CHECK YOUR KNOWLEDGE</button></span> -->
+				</div>
+
+				<div class="course-notes">
+					{% for chapter in chapters %}						
+						{% if chapter.topic == current.topic %}
+							{% for note in notes %}
+								{% if note.chapter == chapter %}
+									<h6 class="color-pink">{{note.title}}</h6>
+									{% if note.description %}
+										<p>{{note.description}}</p>
+										{% if note.document %}
+											{% if note.file_type == "Image" %}
+											<img src="{{note.document.url}}" alt="{{note.doc_title}}" class="img-fluid col-md-8">
+											<br>
+											<h6>{{note.doc_title}}</h6>
+											<p>{{note.file_description}}</p>
+											{% else %}
+											<p>Find document here ==> <a href="{{note.document.url}}">{{note.doc_title}}</a>
+											<br>
+											{{note.file_description}}
+											</p>
+											{% endif %}
+											<hr>
+
+										{% endif %}
+									{% endif %}
+								{% endif %}
+							{% endfor %}
+						{% endif %}
+					{% endfor %}
+				</div>
+
+				<hr>
+				
+				<div class="course-content">
+
+					<h6 class="key-learnings-text">Key learnings</h6>
+					{% for chapter in chapters %}
+						{% if current.topic == chapter.topic %}
+							<p>{{chapter.description}}</p>
+						{% endif %}
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+		
+	</div>
+
+
+
+{% endblock %}

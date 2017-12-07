@@ -1,0 +1,98 @@
+{% extends 'admin-sidebar.html' %}
+
+
+{% load staticfiles %}
+
+{% block title %} {{course.title}} - Topics {% endblock %}
+
+{% block content %}
+
+
+<!-- CONTENT -->
+	<div class="container under-navbar">
+		<h3 align="center" class="color-pink">{{course.title}}</h3>
+		<br>
+		<div class="row">
+
+		{% for topic in topics %}
+			<div class="col-md-4 class-holder">
+				<div class="col-content with-box-shadow class">
+					<h4 align="center"><a href="/t/chapters={{topic.id}}" class="color-pink">{{topic.title}}</a></h4>
+					<br>
+					<p>{{topic.description}}</p>
+				</div>
+			</div>
+
+			{% empty %}
+
+			<div class="col-md-12">
+				<h4 align="center">No topics in {{course.title}}</h4>
+			</div>
+			<br>
+
+		{% endfor %}
+
+
+			<div class="col-md-4 class-holder">
+				<div class="col-content with-box-shadow class">
+					<center><button class="btn btn-default color-pink transparent-btn" data-toggle="modal" data-target="#myModal"><h1>+</h1></button></center>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+	<!-- Adding a Class Modal -->
+
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header pink-bcg">
+		        <h5 class="modal-title white" id="exampleModalLabel">Add a Topic</h5>
+		        <button type="button" class="close white modal-close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+
+		        <!-- ORDER DETAILS -->
+		        <form class="modal-forms" method="POST" action="/t/add-topic={{course.id}}">{% csrf_token %}
+
+		        	<div class="form-group">
+						<label for="course">Course for new topic</label>
+						<input type="text" name="course" value="{{course.title}}" readonly="true" id="course" class="form-control">
+					</div>
+
+					<div class="form-group">
+						<label for="title">Topic Title</label>
+
+						<input type="text" class="form-control form-control-sm" id="name" name="title" aria-describedby="emailHelp" placeholder="Enter course title" required>
+					</div>
+
+					<div class="form-group">
+						<label for="description">Topic description</label>
+						<textarea type="text" class="form-control form-control-sm" id="description" name="description" placeholder="Add course description" rows="5" required></textarea>
+					</div>
+
+					<div class="form-group">
+						<div class="modal-footer">
+					        <button type="submit" class="btn btn-primary modal-btn-submit">Add</button>
+					    </div>
+					</div>
+
+
+					</form>
+		      </div>
+
+		      
+		    </div>
+		  </div>
+		</div>
+
+		<!-- END OF ORDER MODAL -->
+
+
+
+
+{% endblock%}

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	{% load staticfiles %}
+
+	<meta charset="UTF-8">
+	<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<!-- <link rel="stylesheet" href="{% static 'css/materialize.min.css' %}"> -->
+	<link rel="stylesheet" href="{% static 'css/animate.css' %}">
+	<link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
+	<link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+	<link rel="stylesheet" href="{% static 'css/tether.min.css' %}">
+	<link rel="stylesheet" href="{% static 'css/main.css' %}">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+
+      <style type="text/css">
+      	footer{
+			position: fixed;
+			bottom: 0;
+			width: 100%;
+		}
+
+      </style>
+
+	<title>Login</title>
+</head>
+
+
+
+<body>
+
+
+
+
+	<div class="container login-form">
+		<center>
+			<div class="col-md-4">
+				<div class="col-content with-box-shadow">
+					<h6 class="color-pink">Please login</h6>
+					<br>
+					<form action="/log_in" role="form" method="POST"> {% csrf_token %}
+						<div class="form-group">
+							<input type="text" class="form-control" name="username" id="username" placeholder="username" required>
+						</div>
+
+						<div class="form-group">
+							<input type="password" class="form-control" name="password" id="password" placeholder="password" required>
+						</div>
+
+						<div class="form-group">
+					        <button type="submit" class="btn btn-primary modal-btn-submit">login</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</center>
+	</div>
+
+	<footer>
+		<div class="footer">
+			<h6 class="footer-text" align="center"><a href="http://www.corelabsplus.com" target="_tab" class="footer-link">&copyPowered by Core Labs+ 2017.</a></h6>
+		</div>
+	</footer>
+
+	
+
+
+	
+
+
+	<script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+	<script src="{% static 'js/tether.min.js' %}"></script>
+	<script src="{% static 'js/bootstrap.min.js' %}"></script>
+	<script src="{% static 'js/wow.min.js' %}"></script>
+	<script src="{% static 'js/main.js' %}"></script>
+
+	<script>
+        new WOW().init();
+    </script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+{% extends 'admin-sidebar.html' %}
+
+
+{% load staticfiles %}
+
+{% block title %} Welcome to eClass {% endblock %}
+
+{% block styles %}
+
+<style type="text/css">
+	
+	footer{
+		position: fixed;
+		bottom: 0;
+		width: 100%;
+	}
+
+
+</style>
+
+{% endblock %}
+
+{% block content %}
+
+
+<div class="container under-navbar">
+		<div class="row">
+			<div class="col-md-4 class-holder">
+				<div class="col-content with-box-shadow class">
+					<h4 align="center"><a href="/t/classes" class="color-pink">My Classes</a></h4>
+					<br>
+					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias laudantium eius accusamus tempore itaque autem facere soluta nobis odio, quibusdam sed maiores dolore neque, quam libero natus enim voluptas est.</p>
+				</div>
+			</div>
+			<div class="col-md-4 class-holder ">
+				<div class="col-content with-box-shadow class">
+					<h4 align="center"><a href="/t/courses" class="color-pink">Course Library</a></h4>
+					<br>
+					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias laudantium eius accusamus tempore itaque autem facere soluta nobis odio, quibusdam sed maiores dolore neque, quam libero natus enim voluptas est.</p>
+				</div>
+			</div>
+
+			<div class="col-md-4 class-holder1">
+				<div class="col-content with-box-shadow class">
+					<h4 align="center"><a href="/t/assignments" class="color-pink">Assignments</a></h4>
+					<br>
+					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias laudantium eius accusamus tempore itaque autem facere soluta nobis odio, quibusdam sed maiores dolore neque, quam libero natus enim voluptas est.</p>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+{% endblock %}

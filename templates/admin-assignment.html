@@ -1,0 +1,139 @@
+{% extends 'admin-sidebar.html' %}
+
+
+{% load staticfiles %}
+
+{% block title %} {{assignment.title}} {% endblock %}
+
+{% block content %}
+
+
+<!-- CONTENT -->
+	<div class="container under-navbar">
+		<br>
+		<div class="row">
+			<div class="col-md-3 class-holder">
+				<div class="col-content with-box-shadow class">
+					<h4 align="center" class="color-pink">{{assignment.title}}</h4>
+					<br>
+					<p>{{assignment.description}}</p>
+				</div>
+			</div>
+			<div class="col-md-9 class-holder ">
+
+				<div class="col-content with-box-shadow class">
+
+				{% for question in questions %}
+
+					<p>{{question.title}} {% if question.document %} <br><img src="{{question.document.url}}" alt="{{question.title}}" class="img-fluid col-md-6">{% endif %} <br> 
+
+					<ul>
+
+					{% for choice in choices %}
+
+						{% if question == choice.question %}
+						
+							<li><h6>{{choice.option}}</h6> </li>	
+
+						{% endif %}
+
+					{% endfor %}
+					</ul>
+
+					<span><h6 class="color-pink">{{question.answer}}</h6></span></p>
+
+					
+					<hr>
+
+				{% endfor %}
+
+					
+
+				</div>
+
+				<br>
+				<div class="col-md-2 class-holder pull-right">
+					<div class="col-content cirle-btn-add with-box-shadow pink-bcg">
+						<center><button class="btn btn-default white transparent-btn" data-toggle="modal" data-target="#myModal"><h1 class="plus-sing">+</h1></button></center>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+	<!-- Adding a Class Modal -->
+
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header pink-bcg">
+		        <h5 class="modal-title white" id="exampleModalLabel">Add a Question</h5>
+		        <button type="button" class="close white modal-close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+
+		        <!-- ORDER DETAILS -->
+		        <form class="modal-forms" method="POST" action="/t/add-question={{assignment.id}}" enctype="multipart/form-data"> {% csrf_token %}
+					<div class="form-group">
+						<label for="title">Question</label>
+
+						<textarea type="text" class="form-control form-control-sm" id="title" name="title" aria-describedby="emailHelp" placeholder="Enter a question title" required></textarea>
+					</div>
+
+					<div class="form-group">
+						<label for="file">Additional file</label>
+
+						<input type="file" class="form-control form-control-sm" id="file" name="file" aria-describedby="emailHelp" placeholder="Enter Assignment title">
+					</div>
+
+					<!-- <div class="form-group">
+						<label for="file-desc">File description</label>
+
+						<textarea name="file-desc" id="file-desc" cols="30" rows="5" class="form-control"></textarea>
+					</div> -->
+
+					<div class="form-group">
+						<label for="q-type">Type</label>
+
+						<select name="q-type" id="q-type" class="form-control">
+							{% for type in types %}
+							<option value="{{type.code}}">{{type.name}}</option>
+							{% endfor %}
+						</select>
+					</div>
+
+					<div class="form-group for-multiple">
+						<label for="number-choices">number of choices</label>
+
+						<input type="number" class="form-control form-control-sm col-sm-8" id="number-choices" name="number-choices" value="0" aria-describedby="emailHelp" placeholder="Enter number of choices">
+					</div>
+
+					<div class="all-choices">
+					</div>
+
+					<div class="form-group">
+						<label for="correct">Correct answer</label>
+
+						<textarea name="correct" id="correct" cols="30" rows="5" class="form-control"></textarea>
+					</div>
+
+					<div class="form-group">
+						<div class="modal-footer">
+					        <button type="submit" class="btn btn-primary modal-btn-submit">Add</button>
+					    </div>
+					</div>
+				</form>
+		    </div>
+
+		      
+		    </div>
+		  </div>
+		</div>
+
+		<!-- END OF ORDER MODAL -->
+
+{% endblock%}

@@ -1,0 +1,90 @@
+{% extends 'admin-sidebar.html' %}
+
+
+{% load staticfiles %}
+
+{% block title %} Topic - Chapters {% endblock %}
+
+{% block content %}
+
+
+<!-- CONTENT -->
+	<div class="container under-navbar">
+		<h3 align="center" class="color-pink">{{topic.title}} - Chapters</h3>
+		<br>
+		<div class="row">
+
+		{% for chapter in chapters %}
+
+			<div class="col-md-4 class-holder">
+				<div class="col-content with-box-shadow class">
+					<h4 align="center"><a href="/t/chapter={{chapter.id}}" class="color-pink">{{chapter.title}}</a></h4>
+					<br>
+					<p>{{chapter.description}}</p>
+				</div>
+			</div>
+
+		{% endfor %}
+
+			<div class="col-md-4 class-holder">
+				<div class="col-content with-box-shadow class">
+					<center><button class="btn btn-default color-pink transparent-btn" data-toggle="modal" data-target="#myModal"><h1>+</h1></button></center>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+	<!-- Adding a Class Modal -->
+
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header pink-bcg">
+		        <h5 class="modal-title white" id="exampleModalLabel">Add a Chapter</h5>
+		        <button type="button" class="close white modal-close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+
+		        <!-- ORDER DETAILS -->
+		        <form class="modal-forms" method="POST" action="/t/add-chapter={{topic.id}}"> {% csrf_token %}
+
+		        	<!-- <div class="form-group">
+						<label for="id">Chapter Number</label>
+
+						<input type="number" class="form-control form-control-sm" id="id" name="id" aria-describedby="emailHelp" placeholder="Enter course title" required>
+					</div> -->
+
+					<div class="form-group">
+						<label for="title">Chapter Title</label>
+
+						<input type="text" class="form-control form-control-sm" id="title" name="title" aria-describedby="emailHelp" placeholder="Enter course title" required>
+					</div>
+
+					<div class="form-group">
+						<label for="description">Chapter description</label>
+						<textarea type="text" class="form-control form-control-sm" id="description" name="description" placeholder="Add chapter description" rows="5" required></textarea>
+					</div>
+
+					<div class="form-group">
+						<div class="modal-footer">
+					        <button type="submit" class="btn btn-primary modal-btn-submit">Add</button>
+					    </div>
+					</div>
+
+
+					</form>
+		      </div>
+
+		      
+		    </div>
+		  </div>
+		</div>
+
+		<!-- END OF ORDER MODAL -->
+
+
+{% endblock%}

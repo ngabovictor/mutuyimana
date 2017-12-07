@@ -1,0 +1,76 @@
+{% extends 'student-sidebar.html' %}
+
+
+{% load staticfiles %}
+
+{% block title %} Welcome to eClass {% endblock %}
+
+{% block content %}
+
+{% block user %}
+
+{{student.first_name}}
+
+{% endblock %} 
+
+<div class="container update-container">
+		<div class="row">
+			<!-- <center> -->
+				<div class=" update-item up-next col-md-11">
+					<div class="update-content">
+						<h6 class="up-next-title">Up next</h6>
+						<br>
+						<h5 class="next-chapter" align="center">{{course.title}}</h5>
+						<p align="center">{{current.topic}}
+							<h5 class="next-chapter" align="center">{{current.chapter}}</h5>
+						</p>
+					</div>
+
+					<div class="update-footer">
+						<a href="/s/chapter={{chapter.id}}" class="white"><button class="keep-learning-btn pull-right btn btn-default">KEEP LEARNING</button></a>
+					</div>
+				</div>
+
+				<!-- <div class=" pull-right update-item progress-show col-md-5">
+					<div class="update-content">
+						<h6 class="progress-title">Course progress</h6>
+						<div class="progress-more-container">
+							<p class="course-progress-more">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tenetur accusantium consequatur repellendus est, rerum officia fugit nam a voluptatem neque excepturi harum, fugiat impedit laudantium suscipit eius velit. Quod, unde.
+							</p>
+						</div>
+						<div class="progress-percentage">
+							<div class="percentage">
+								<h3 class="percentage-number" align="center">50%</h3>
+							</div>
+						</div>
+					</div>
+				</div> -->
+			<!-- </center> -->
+		</div>
+	</div>
+
+
+	<div class="container topics">
+
+	{% for course in courses %}
+		<div class="row course-ov">
+			<div class="col-md-3">
+				<img src="{{course.picture.url}}" alt="course" class="img-fluid">
+			</div>
+			<div class="col-md-9">
+				<h4 class="topicTitle color-pink">{{course.title}}</h4>
+				<p>{{course.description}}</p>
+			</div>
+		</div>
+	{% empty %}
+		<div class="col-md-12">
+			<p align="center">No courses yet</p>
+		</div>
+	{% endfor %}
+
+	</div>
+
+
+
+
+{% endblock %}

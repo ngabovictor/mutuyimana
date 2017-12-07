@@ -1,0 +1,166 @@
+{% extends 'admin-sidebar.html' %}
+
+
+{% load staticfiles %}
+
+{% block title %} {{class.name}} {% endblock %}
+
+{% block content %}
+
+
+	<!-- CONTENT -->
+	<div class="container under-navbar">
+		<div class="row">
+			<div class="col-md-3 class-holder">
+				<div class="col-content with-box-shadow class">
+					<h4 align="center" class="color-pink">{{class.name}}</h4>
+					<br>
+					<p>{{class.description}}</p>
+					<!-- <button class="btn btn-default green-bcg white transparent-btn" data-toggle="modal" data-target="#message-class">Message class</button> -->
+				</div>
+			</div>
+			<div class="col-md-9 class-holder ">
+				<div class="col-content with-box-shadow class">
+					<h5 align="center" class="color-pink">{{class.name}} Students</h5>
+					<table class="table table-hover" id="table">
+
+						<thead class="core-text">
+							<tr>
+								<th>ID</th>
+								<th>Name</th>
+								<th>email</th>
+							</tr>
+						</thead>
+
+						{% for student in students %}
+
+
+
+						<tbody>
+							<tr>
+								<td><a href="/t/individual={{student.id}}" class="t-item"> {{student.id_number}}</a></td>
+								<td><a href="/t/individual={{student.id}}" class="t-item">{{student.first_name}} {{student.last_name}}</a></td>
+								<td><a href="/t/individual={{student.id}}" class="t-item">{{student.email}}</a></td>
+							</tr>
+						</tbody>
+
+						{% empty %}
+							<h4 align="center">No students in this class</h4>
+						{% endfor %}
+					</table>
+				</div>
+				<br>
+				<div class="col-md-4 class-holder pull-right">
+					<div class="col-content with-box-shadow class">
+						<center><button class="btn btn-default color-pink transparent-btn" data-toggle="modal" data-target="#myModal"><h1>+</h1></button></center>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+	<!-- Adding a Class Modal -->
+
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header pink-bcg">
+		        <h5 class="modal-title white" id="exampleModalLabel">Add a Student</h5>
+		        <button type="button" class="close white modal-close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+
+		        <!-- ORDER DETAILS -->
+		        <form class="modal-forms" method="POST" action="/t/add-student-to-class={{class.id}}">{% csrf_token %}
+		        	<div class="form-group">
+						<label for="id">ID</label>
+
+						<input type="text" class="form-control form-control-sm" id="id" name="id" aria-describedby="emailHelp" placeholder="Enter a student's ID" required>
+					</div>
+
+					<div class="form-group">
+						<label for="fname">First name</label>
+
+						<input type="text" class="form-control form-control-sm" id="fname" name="fname" aria-describedby="emailHelp" placeholder="Enter a student first name" required>
+					</div>
+
+					<div class="form-group">
+						<label for="lname">Last name</label>
+
+						<input type="text" class="form-control form-control-sm" id="lname" name="lname" aria-describedby="emailHelp" placeholder="Enter a student last name" required>
+					</div>
+
+					<div class="form-group">
+						<label for="email">Email</label>
+
+						<input type="text" class="form-control form-control-sm" id="email" name="email" aria-describedby="emailHelp" placeholder="Enter a student email" required>
+					</div>
+
+					<div class="form-group">
+						<div class="modal-footer">
+					        <button type="submit" class="btn btn-primary modal-btn-submit">Add</button>
+					    </div>
+					</div>
+
+
+					</form>
+		      </div>
+
+		      
+		    </div>
+		  </div>
+		</div>
+
+		<!-- END OF ORDER MODAL -->
+
+
+		<!-- Messaging Class Modal -->
+
+		<!-- <div class="modal fade" id="message-class" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header pink-bcg">
+		        <h5 class="modal-title white" id="exampleModalLabel">Message a class</h5>
+		        <button type="button" class="close white modal-close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		      </div>
+		      <div class="modal-body"> -->
+
+		        <!-- ORDER DETAILS
+		        <form class="modal-forms">
+					<div class="form-group">
+						<label for="description">Add a message</label>
+
+						<textarea type="text" class="form-control form-control-sm" id="description" name="description" placeholder="Add message" rows="5" required></textarea>
+					</div>
+
+					<div class="form-group">
+						<label for="file">Add a document</label>
+						<input type="file" class="form-control" id="file" name="file">
+						<br>
+						<textarea type="text" class="form-control form-control-sm" id="description" name="description" placeholder="Add class description" rows="5" required></textarea>
+					</div>
+
+					<div class="form-group">
+						<div class="modal-footer">
+					        <button type="submit" class="btn btn-primary modal-btn-submit">Submit</button>
+					    </div>
+					</div>
+
+
+					</form>
+		      </div>
+
+		      
+		    </div>
+		  </div>
+		</div>
+ -->
+		<!-- END OF ORDER MODAL -->
+
+{% endblock%}

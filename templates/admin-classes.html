@@ -1,0 +1,80 @@
+{% extends 'admin-sidebar.html' %}
+
+
+{% load staticfiles %}
+
+{% block title %} My Classes {% endblock %}
+
+{% block content %}
+
+
+<div class="container under-navbar">
+		<h3 align="center" class="color-pink">My Classes</h3>
+		<br>
+		<div class="row">
+
+			{% for class in classes %}
+			<div class="col-md-4 class-holder">
+				<div class="col-content with-box-shadow class">
+					<h4 align="center"><a href="/t/class={{class.id}}" class="color-pink">{{class.name}}</a></h4>
+					<br>
+					<p>{{class.description}}</p>
+				</div>
+			</div>
+			{% endfor %}
+
+
+			<div class="col-md-4 class-holder">
+				<div class="col-content with-box-shadow class">
+					<center><button class="btn btn-default color-pink transparent-btn" data-toggle="modal" data-target="#myModal"><h1>+</h1></button></center>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+	<!-- Adding a Class Modal -->
+
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header pink-bcg">
+		        <h5 class="modal-title white" id="exampleModalLabel">Add a Class</h5>
+		        <button type="button" class="close white modal-close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+
+		        <!-- ORDER DETAILS -->
+		        <form class="modal-forms" action="/t/add-class" method="POST"> {% csrf_token %}
+					<div class="form-group">
+						<label for="name">Class Name</label>
+
+						<input type="text" class="form-control form-control-sm" id="name" name="name" aria-describedby="emailHelp" placeholder="Enter class name" required>
+					</div>
+
+					<div class="form-group">
+						<label for="description">Class description</label>
+						<textarea type="text" class="form-control form-control-sm" id="description" name="description" placeholder="Add class description" rows="5" required></textarea>
+					</div>
+
+					<div class="form-group">
+						<div class="modal-footer">
+					        <button type="submit" class="btn btn-primary modal-btn-submit">Add</button>
+					    </div>
+					</div>
+
+
+					</form>
+		      </div>
+
+		      
+		    </div>
+		  </div>
+		</div>
+
+		<!-- END OF ORDER MODAL -->
+
+{% endblock %}

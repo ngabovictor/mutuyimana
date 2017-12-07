@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	{% load staticfiles %}
+
+	<meta charset="UTF-8">
+	<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<!-- <link rel="stylesheet" href="{% static 'css/materialize.min.css' %}"> -->
+	<link rel="stylesheet" href="{% static 'css/animate.css' %}">
+	<link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
+	<link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+	<link rel="stylesheet" href="{% static 'css/tether.min.css' %}">
+	<link rel="stylesheet" href="{% static 'css/main.css' %}">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+
+	{% block styles %}
+	{% endblock %}
+
+	
+
+	<title>{% block title %}{% endblock %}</title>
+</head>
+
+
+
+<body>
+
+{% block prescripts %}
+    {% endblock %}
+
+	<!-- SIDEBAR -->
+
+	{% block sidebar %}
+
+		
+
+	{% endblock %}
+
+	<!-- NAVBAR -->
+
+	<nav class="navbar fixed-top navbar-toggleable-md navbar-light bg-faded">
+	  <a class="navbar-brand" href="#">
+	  	<button type="button" class="side-menu-button">
+	  		<span><i class="navbar-toggler-icon"></i></span>
+	  	</button><span class="band-name">eClass</span>
+	  </a>
+	</nav>
+
+
+	{% block content %}
+	<!-- SUBNAVBAR -->
+
+	
+
+	{% endblock %}
+
+	<!-- FOOTER -->
+
+	<footer>
+		<div class="footer">
+			<h6 class="footer-text" align="center"><a href="http://www.corelabsplus.com" target="_tab" class="footer-link">&copyPowered by Core Labs+ 2017.</a></h6>
+		</div>
+	</footer>
+
+	
+
+
+	
+
+
+	<script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+	<script src="{% static 'js/tether.min.js' %}"></script>
+	<script src="{% static 'js/bootstrap.min.js' %}"></script>
+	<script src="{% static 'js/wow.min.js' %}"></script>
+	<script src="{% static 'js/main.js' %}"></script>
+
+	<script>
+        new WOW().init();
+    </script>
+
+    {% block scripts %}
+    {% endblock %}
+</body>
+</html>
