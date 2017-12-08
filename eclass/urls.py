@@ -139,6 +139,13 @@ urlpatterns = [
                 # Confirming the invitation
                 url(r'register=(?P<st_id>\w+)$', views.signup, name="Confirming invitation"),
 
+                # Messaging a student
+                url(r't/send-message-to=(?P<st_id>\w+)$', views.messageStudent, name="Send message"),
+
+
+                # Messagin the whole class
+                url(r't/send-message-to-class=(?P<class_id>\d+)$', views.messageClass, name="Message a class"),
+
                 
                
                ]

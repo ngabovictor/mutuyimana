@@ -864,3 +864,50 @@ def signup(request, st_id):
 				chapter=chapter.objects.filter(topic=top).last(),)
 			invited.objects.get(id_number=st_id).delete()
 			return redirect('/login')
+
+
+#Sending mail to student
+@login_required(login_url="/login")
+def messageStudent(request, st_id):
+	instance = get_object_or_404(student, id_number=int(st_id))
+	user = request.user
+	if user.is_superuser:
+		st = student.objects.get(id_number=int(st_id))
+		eclass = st.eclass
+		if request.method == "POST":
+			message = request.POST.get('message', '')
+			email = EmailMessage('Confirm eClass membership', message, to=[st.email])
+			email.send()
+		return redirect("/t/class=" + str(eclass.id))
+
+	else:
+		return redirect('/error')
+
+
+#Sending mail to a class
+@login_required(login_url="/login")
+def messageClass(request, class_id):
+	instance = get_object_or_404(eclass, id=class_id)
+	user = request.user
+	if user.is_superuser:
+		ecls = eclass.objects.get(id=class_id)
+		individuals = student.objects.filter(eclass=eclass.objects.get(id=class_id))
+		individualsCount = student.objects.filter(eclass=eclass.objects.get(id=class_id)).count()
+		if individualsCount == 0:
+			return redirect("/t/class=" + str(class_id))
+
+		else:
+			emails = []
+			for ind in individuals:
+				emails.append(ind.email)
+
+			if request.method == "POST":
+				message = request.POST.get('message', '')
+
+				for st in emails:
+					email = EmailMessage('New message for '+ str(ecls.name), message, to=[st])
+					email.send()
+			return redirect("/t/class=" + str(class_id))
+
+	else:
+		return redirect('/error')
