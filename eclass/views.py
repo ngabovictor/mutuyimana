@@ -110,7 +110,16 @@ def student_course(request, course_id):
 		instance = get_object_or_404(course, id=course_id)
 		st =  student.objects.get(username=request.user)
 		# cu = current.objects.get(student=student.objects.get(pk=st.id))
+		setTopicCounter = topic.objects.filter(course = course.objects.get(pk=course_id)).count()
 		setTopic = topic.objects.filter(course = course.objects.get(pk=course_id)).first()
+		if setTopicCounter == 0:
+		    return redirect('/error')
+
+		setChapterCounter = chapter.objects.filter(topic = setTopic).count()
+
+		if setChapterCounter == 0:
+		    return redirect('/error')
+
 		setChapter = chapter.objects.filter(topic = setTopic).first()
 
 		current.objects.filter(student=st).update(topic = setTopic, chapter=setChapter)
@@ -177,7 +186,7 @@ def student_assignments(request):
 		not_completed = []
 		i=1
 
-		
+
 		while i <= ass_count:
 			for ass in asss:
 				for comp in comps:
@@ -273,7 +282,7 @@ def mark_assignment(request, assignment_id):
 
 									corrects = corrects + float(subs/n)
 
-									
+
 								else:
 									answered = request.POST.get(str(name),'')
 									if answered == answer.answer:
@@ -642,7 +651,7 @@ def admin_apply_course(request):
 				course_for.objects.create(
 					course=course.objects.get(pk=int(cs)),
 					eclass=eclass.objects.get(pk=int(ec)),
-					)					
+					)
 				return redirect('/t/courses')
 
 			else:
@@ -657,7 +666,7 @@ def admin_apply_course(request):
 						course=course.objects.get(pk=int(cs)),
 						eclass=eclass.objects.get(pk=int(ec)),
 						)
-			return redirect('/t/courses')						
+			return redirect('/t/courses')
 	else:
 		return redirect('/error')
 
@@ -685,7 +694,7 @@ def admin_apply_assignment(request):
 				assignment_for.objects.create(
 					assignment=assignment.objects.get(pk=int(cs)),
 					eclass=eclass.objects.get(pk=int(ec)),
-					)					
+					)
 				return redirect('/t/assignments')
 
 			else:
@@ -700,7 +709,7 @@ def admin_apply_assignment(request):
 						assignment=assignment.objects.get(pk=int(cs)),
 						eclass=eclass.objects.get(pk=int(ec)),
 						)
-			return redirect('/t/assignments')						
+			return redirect('/t/assignments')
 	else:
 		return redirect('/error')
 
@@ -876,7 +885,7 @@ def messageStudent(request, st_id):
 		eclass = st.eclass
 		if request.method == "POST":
 			message = request.POST.get('message', '')
-			email = EmailMessage('Confirm eClass membership', message, to=[st.email])
+			email = EmailMessage('New message from eClass admin', message, to=[st.email])
 			email.send()
 		return redirect("/t/class=" + str(eclass.id))
 
