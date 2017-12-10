@@ -18,10 +18,10 @@
 
 	<div class="lesson-title">
 		<div class="title-contents">
-			<h5>{{course.title}}</h5>
-			<h6><span class="topic">Topic: </span>{{current.topic}}</h6>
+			<h5>{{course.title}} <span class="pull-right"><button class="btn show-chapters show"><i class="material-icons chevron chevron-up">keyboard_arrow_left</i></button></span></h5>
+			<h6><span class="topic">Topic: </span>{{current.topic.title}}</h6>
 
-					<h6><span class="topic">Chapter: </span>{{current.chapter}}</h6>
+					<h6><span class="topic">Chapter: </span>{{current.chapter.title}}</h6>
 		</div>
 	</div>
 
@@ -30,6 +30,8 @@
 
 
 	<!-- TOPIC OVERVIEW -->
+
+	<!-- For desktop -->
 
 	<div class="content-overview">
 		<div class="overview-content">
@@ -41,7 +43,30 @@
 					<ul class="chapters">
 						{% for chapter in chapters %}
 							{% if topic == chapter.topic %}
-							<li class="chapter"><a href="/s/chapter={{chapter.id}}">{{chapter.title}}</a></li>
+							<li class="chapter"><a href="/s/chapter={{chapter.id}}">- {{chapter.title}}</a></li>
+							{% endif %}
+						{% endfor %}
+					</ul>
+				</li>
+			{% endfor %}
+			</ul>
+		</div>
+	</div>
+
+	<!-- For mobile -->
+
+
+	<div class="for-mobile">
+		<div class="overview-content overview-content-for-mobile">
+			<ul class="topic-list">
+
+			{% for topic in topics %}
+				<li>
+					<h6 class="course-topic">{{topic.title}}</h6>
+					<ul class="chapters">
+						{% for chapter in chapters %}
+							{% if topic == chapter.topic %}
+							<li class="chapter"><a href="/s/chapter={{chapter.id}}">- {{chapter.title}}</a></li>
 							{% endif %}
 						{% endfor %}
 					</ul>
@@ -65,7 +90,7 @@
 
 				<div class="course-notes">
 					{% for chapter in chapters %}						
-						{% if chapter.topic == current.topic %}
+						{% if chapter == current.chapter %}
 							{% for note in notes %}
 								{% if note.chapter == chapter %}
 									<h6 class="color-pink">{{note.title}}</h6>
@@ -99,7 +124,7 @@
 
 					<h6 class="key-learnings-text">Key learnings</h6>
 					{% for chapter in chapters %}
-						{% if current.topic == chapter.topic %}
+						{% if current.chapter == chapter %}
 							<p>{{chapter.description}}</p>
 						{% endif %}
 					{% endfor %}

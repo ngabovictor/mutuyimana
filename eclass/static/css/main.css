@@ -194,6 +194,20 @@ a:focus{
 	float: left;
 }
 
+.for-mobile{
+	width: 70%;
+	background-color: #fff;
+	padding-bottom: 15px;
+}
+
+.show-chapters{
+	background: transparent;
+	color: #fff;
+	cursor: pointer;
+	display: none;
+}
+
+
 .overview-content{
 	width: 90%;
 	margin: 0px auto;
@@ -453,6 +467,21 @@ footer{
 
 	.progress-show{
 		margin-right: 0;
+	}
+
+	.for-mobile{
+		width: 100%;
+	}
+
+	.chevron{
+		transform: rotate(-90deg);
+	}
+
+	.show-chapters{
+		background: transparent;
+		color: #fff;
+		cursor: pointer;
+		display: block;
 	}
 
 }

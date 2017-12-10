@@ -4,6 +4,7 @@ $(document).ready(function(){
 	$('.body').hide();
 	$('.course-notes').hide();
 	$('.for-multiple').hide();
+	$('.for-mobile').hide();
 
 	$('.side-menu-button').click(function(){
 		$('.side-bar').animate({'margin-left': '0px'}, "fast");
@@ -38,6 +39,22 @@ $(document).ready(function(){
 			$(this).html('View Notes');
 			$(this).addClass('show');
 			$('.course-notes').slideUp();
+		};
+	});
+
+	$('.show-chapters').click(function(){
+		if ($(this).hasClass('show') === true) {
+			$('.for-mobile').slideDown();
+			$(this).removeClass('show');
+			$(this).addClass('hide');
+			$('.chevron').css("transform", "rotate(90deg)")
+		}
+
+		else if ($(this).hasClass('hide') === true) {
+			$('.for-mobile').slideUp();
+			$(this).removeClass('hide');
+			$(this).addClass('show');
+			$('.chevron').css("transform", "rotate(-90deg)")
 		};
 	});
 

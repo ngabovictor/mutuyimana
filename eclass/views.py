@@ -32,7 +32,7 @@ def log_in(request):
                 auth.login(request,user)
                 return redirect('/t/dashboard')
         else:
-            return render(request, 'invalid-loginhtml')
+            return render(request, 'invalid-login.html')
 
 # Logging out
 def logout(request):
