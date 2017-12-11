@@ -247,7 +247,9 @@ def student_assignment(request, assignment_id):
 def mark_assignment(request, assignment_id):
 	user = request.user
 	if not user.is_superuser:
+		instance = get_object_or_404(assignment, id=assignment_id)
 		st = student.objects.get(username = request.user)
+		ass = assignment.objects.get(id=assignment_id)
 		if request.method == 'POST':
 			count = int(request.POST.get('qcount'))
 			temp = count
@@ -291,12 +293,17 @@ def mark_assignment(request, assignment_id):
 
 
 		score = (float(corrects) * 100)/float(count)
+		formatted = format(score, '.2f')
+
+		message = "Hello, your assignment \"" + str(ass.title) + "\" is graded.\nYou have got: " + str(formatted) + "%.\n\n\nThank you"
 
 		Completed_assignment.objects.create(
 			student = st,
 			assignment = assignment.objects.get(pk=assignment_id),
 			score = format(score, '.2f'),
 			time = datetime.today(),)
+		email = EmailMessage("New notification from eClass", message, to=[st.email])
+		email.send()
 
 		return redirect('/s/assignments')
 	else:
@@ -650,12 +657,26 @@ def admin_apply_course(request):
 			classes = []
 			check = 0
 
+			individuals = student.objects.filter(eclass=eclass.objects.get(pk=int(ec)))
+			individualsCount = student.objects.filter(eclass=eclass.objects.get(pk=int(ec))).count()
+			emails = []
+			message = "Hello, \n\n New course \""+ str(css.title)+ "\" is added to your class.\n\n\n Thank you."
+
+			for ind in individuals:
+				emails.append(ind.email)
+
 			#Assign a course to a class
 			if cforscount == 0:
 				course_for.objects.create(
 					course=course.objects.get(pk=int(cs)),
 					eclass=eclass.objects.get(pk=int(ec)),
 					)
+
+				if individualsCount > 0:
+					for st in emails:
+						email = EmailMessage('New notification from eClass', message, to=[st])
+						email.send()
+
 				return redirect('/t/courses')
 
 			else:
@@ -670,6 +691,10 @@ def admin_apply_course(request):
 						course=course.objects.get(pk=int(cs)),
 						eclass=eclass.objects.get(pk=int(ec)),
 						)
+					if individualsCount > 0:
+						for st in emails:
+							email = EmailMessage('New notification from eClass', message, to=[st])
+							email.send()
 			return redirect('/t/courses')
 	else:
 		return redirect('/error')
@@ -684,12 +709,15 @@ def admin_apply_assignment(request):
 			ec = request.POST['eclass']
 			css = assignment.objects.get(pk=int(cs))
 			ecl = eclass.objects.get(pk=int(ec))
+			individuals = student.objects.filter(eclass=eclass.objects.get(pk=int(ec)))
+			individualsCount = student.objects.filter(eclass=eclass.objects.get(pk=int(ec))).count()
 			cfors = assignment_for.objects.filter(assignment = assignment.objects.get(pk=int(cs)))
 			cforscount = assignment_for.objects.filter(assignment = assignment.objects.get(pk=int(cs))).count()
 			classes = []
+			emails = []
 			check = 0
 			status = str(css.status)
-			print (status)
+			message = "Hello, \n\n A new assignment is added to your class.\n\n\nThank you."
 
 
 			#Assign the assignment to class
@@ -699,6 +727,13 @@ def admin_apply_assignment(request):
 					eclass=eclass.objects.get(pk=int(ec)),
 					status = status,
 					)
+				if individualsCount > 0:
+					for ind in individuals:
+						emails.append(ind.email)
+					for st in emails:
+						email = EmailMessage("New notification from eClass", message, to=[st])
+						email.send()
+
 				return redirect('/t/assignments')
 
 			else:
@@ -720,7 +755,14 @@ def admin_apply_assignment(request):
 						eclass=eclass.objects.get(pk=int(ec)),
 						status = status,
 						)
-			return redirect('/t/assignments')
+
+					if individualsCount > 0:
+						for ind in individuals:
+							emails.append(ind.email)
+						for st in emails:
+							email = EmailMessage("New notification from eClass", message, to=[st])
+							email.send()
+				return redirect('/t/assignments')
 	else:
 		return redirect('/error')
 
