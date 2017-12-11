@@ -176,7 +176,7 @@ def student_assignments(request):
 	user = request.user
 	if not user.is_superuser:
 		st = student.objects.get(username=request.user)
-		assk = assignment_for.objects.filter(eclass=st.eclass)
+		assk = assignment_for.objects.filter(eclass=st.eclass, status="Active")
 		asss = []
 		for ask in assk:
 			asss.append(ask.assignment)
@@ -321,6 +321,7 @@ def admin_classes(request):
 	if user.is_superuser:
 		data = {}
 		data['classes'] = eclass.objects.all()
+		data['cfors'] = course_for.objects.all()
 		return render(request, 'admin-classes.html', data)
 	else:
 		return redirect('/error')
@@ -343,7 +344,7 @@ def admin_add_class(request):
 	else:
 		return redirect('/error')
 
-
+# Viewing a class
 @login_required(login_url="/login")
 def admin_class(request, class_id):
 	user = request.user
@@ -356,6 +357,8 @@ def admin_class(request, class_id):
 	else:
 		return redirect('/error')
 
+
+# Student
 @login_required(login_url="/login")
 def admin_student(request, st_id):
 	user = request.user
@@ -402,6 +405,7 @@ def admin_assignments(request):
 		data['assignments'] = assignment.objects.all()
 		data['eclasses'] = eclass.objects.all()
 		data['user'] = user
+		data['assfors'] = assignment_for.objects.all()
 		return render(request, 'admin-assignments.html', data)
 	else:
 		return redirect('/error')
@@ -494,6 +498,7 @@ def admin_courses(request):
 		data = {}
 		data['courses'] = course.objects.all()
 		data['eclasses'] = eclass.objects.all()
+		data['cfors'] = course_for.objects.all()
 		return render(request, 'admin-courses.html', data)
 	else:
 		return redirect('/error')
@@ -515,7 +520,6 @@ def admin_topics(request, course_id):
 
 # Adding a topic
 @login_required
-
 def admin_add_topic(request, course_id):
 	user = request.user
 	if user.is_superuser:
@@ -684,16 +688,16 @@ def admin_apply_assignment(request):
 			cforscount = assignment_for.objects.filter(assignment = assignment.objects.get(pk=int(cs))).count()
 			classes = []
 			check = 0
+			status = str(css.status)
+			print (status)
 
-			#Auto activate the assignment
-			if str(css.status) != "Active":
-				assignment.objects.filter(pk=int(cs)).update(status="Active")
 
 			#Assign the assignment to class
 			if cforscount == 0:
 				assignment_for.objects.create(
 					assignment=assignment.objects.get(pk=int(cs)),
 					eclass=eclass.objects.get(pk=int(ec)),
+					status = status,
 					)
 				return redirect('/t/assignments')
 
@@ -705,11 +709,47 @@ def admin_apply_assignment(request):
 					return redirect('/t/assignments')
 
 				else:
+					# Get assignment status
+					# if css.status == "Active":
+					# 	stat = "Active"
+					# elif css.status == "Inactive":
+					# 	stat = "Inactive"
+
 					assignment_for.objects.create(
 						assignment=assignment.objects.get(pk=int(cs)),
 						eclass=eclass.objects.get(pk=int(ec)),
+						status = status,
 						)
 			return redirect('/t/assignments')
+	else:
+		return redirect('/error')
+
+# Activating assignment
+def admin_activate(request, assignment_id):
+	user = request.user
+	if user.is_superuser:
+		instance = get_object_or_404(assignment, id=assignment_id)
+		ass = assignment.objects.get(id=assignment_id)
+		assignment.objects.filter(id=assignment_id).update(status="Active")
+		assfors = assignment_for.objects.filter(assignment=ass)
+		if assfors is not None:
+			assignment_for.objects.filter(assignment=ass).update(status="Active")
+		return redirect('/t/assignments')
+	else:
+		return redirect('/error')
+
+
+# Deactivating assignment
+def admin_deactivate(request, assignment_id):
+	user = request.user
+	if user.is_superuser:
+		instance = get_object_or_404(assignment, id=assignment_id)
+		ass = assignment.objects.get(id=assignment_id)
+		assignment.objects.filter(id=assignment_id).update(status="Inactive")
+		assfors = assignment_for.objects.filter(assignment=ass)
+		if assfors is not None:
+			assignment_for.objects.filter(assignment=ass).update(status="Inactive")
+		return redirect('/t/assignments')
 	else:
 		return redirect('/error')
 

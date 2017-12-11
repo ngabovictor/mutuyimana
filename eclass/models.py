@@ -120,6 +120,14 @@ class assignment(models.Model):
 class assignment_for(models.Model):
 	assignment = models.ForeignKey(assignment, help_text="Add assignment", on_delete=models.CASCADE)
 	eclass = models.ForeignKey(eclass, help_text="Add class", on_delete=models.CASCADE)
+	Active = 'Active'
+	Inactive = 'Inactive'
+	statuses = {
+	(Active, 'Active'),
+	(Inactive, 'Inactive'),
+	}
+
+	status = models.CharField(max_length=20, choices=statuses, default="Inactive")
 
 	def __str__(self):
 		return str(self.assignment) + " - " + str(self.eclass)

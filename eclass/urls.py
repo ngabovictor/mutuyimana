@@ -118,6 +118,12 @@ urlpatterns = [
                 # Link assignment to class
                 url('^t/apply-assignment-to-class$', views.admin_apply_assignment, name="Link assignments"),
 
+                # Activate assignment
+                url(r't/activate=(?P<assignment_id>\d+)$', views.admin_activate, name="Link assignments"),
+
+                # Deactivate assignment
+                url(r't/deactivate=(?P<assignment_id>\d+)$', views.admin_deactivate, name="Link assignments"),
+
 
 
                 # Adding a student to a class

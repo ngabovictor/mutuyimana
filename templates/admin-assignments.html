@@ -21,7 +21,28 @@
 					<h4 align="center"><a href="/t/assignment={{assignment.id}}" class="color-pink">{{assignment.title}}</a></h4>
 					<br>
 					<p>{{assignment.description}}</p>
-					<h6 class="color-pink">{{assignment.status}}</h6>
+					<h6>Status: <span class="color-pink">{{assignment.status}}<span></h6>
+
+					<br>
+					<hr>
+					<ul>
+						{% for assfor in assfors %}
+							{% if assfor.assignment == assignment %}
+							<li>{{assfor.eclass}}</li>
+							{% endif %}
+						{% endfor %}
+					</ul>
+
+					<br>
+
+					{% if assignment.status == "Active" %}
+					<center><a href="/t/deactivate={{assignment.id}}"><button class="btn btn-primary">Deactivate</button></a></center>
+
+					{% elif assignment.status == "Inactive" %}
+					<center><a href="/t/activate={{assignment.id}}"><button class="btn btn-primary">Activate</button></a></center>
+					{% endif %}
+
+
 
 					<br>
 
@@ -33,7 +54,7 @@
 
 			<div class="col-md-4 class-holder">
 				<div class="col-content with-box-shadow class">
-					<center><button class="btn btn-default color-pink transparent-btn" data-toggle="modal" data-target="#link">Link assignmentassignment to class</button></center>
+					<center><button class="btn btn-default color-pink transparent-btn" data-toggle="modal" data-target="#link">Link assignment to class</button></center>
 				</div>
 			</div>
 
